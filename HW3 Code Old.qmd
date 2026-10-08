@@ -1,0 +1,83 @@
+---
+title: "R Calculations"
+subtitle: "ECON 141 Problem Set 3"
+author: "Yuan Xie"
+format: pdf
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+```
+
+# Problem 1
+
+## Data import
+```{r}
+CPS <- read.table("CPS.dat", header = TRUE)
+head(CPS)
+```
+
+
+## (b) & (c)
+```{r}
+model <- lm(ahe ~ yrseduc, data = CPS)
+summary(model)
+```
+
+## (e)
+```{r}
+model2 <- lm(ahe ~ yrseduc + female + age, data = CPS)
+summary(model2)
+```
+
+## (f)
+```{r}
+model  <- lm(ahe ~ yrseduc, data = CPS)
+model2 <- lm(ahe ~ yrseduc + female + age, data = CPS)
+
+anova(model, model2)
+```
+
+## (g)
+```{r}
+model2 <- lm(ahe ~ yrseduc + female + age, data = CPS)
+summary(model2)
+```
+
+## (h)
+```{r}
+model3 <- lm(ahe ~ yrseduc + female + age + I(age^2), data = CPS)
+summary(model3)
+```
+
+## (i)
+```{r}
+model2 <- lm(ahe ~ yrseduc + female + age, data = CPS)
+model3 <- lm(ahe ~ yrseduc + female + age + I(age^2), data = CPS)
+
+anova(model2, model3)
+```
+
+## (j)
+```{r}
+model3 <- lm(ahe ~ yrseduc + female + age + I(age^2), data = CPS)
+summary(model3)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
