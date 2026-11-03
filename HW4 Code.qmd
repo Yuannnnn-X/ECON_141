@@ -1,0 +1,79 @@
+---
+title: "R Calculations"
+subtitle: "ECON 141 Problem Set 4"
+author: "Yuan Xie"
+format: pdf
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(sandwich)
+library(lmtest)
+```
+
+# Problem 1
+
+## Data import
+```{r}
+CPS <- read.table("CPS.dat", header = TRUE)
+head(CPS)
+```
+
+
+## (b)
+```{r}
+model <- lm(ahe ~ yrseduc + female + age + ne + south + midwest, data = CPS)
+
+summary(model)
+
+coeftest(model, vcov. = vcovHC(model, type = "HC1"))
+```
+
+## (h)
+```{r}
+# HC1 robust covariance matrix
+V <- vcovHC(model, type = "HC1")
+
+# Sandwich matrix (Sigma_hat)
+Sigma_hat <- nobs(model) * V
+
+# Print the full 7×7 matrix
+print(round(Sigma_hat, 4))
+
+# Print the 2×2 submatrix for beta5 and beta6
+print(round(Sigma_hat[c("south", "midwest"),
+                      c("south", "midwest")], 4))
+```
+
+## (m)
+```{r}
+# Full Sandwich Matrix
+Sigma_hat <- nobs(model) * vcovHC(model, type = "HC1")
+
+# Display the full 7×7 matrix
+print(round(Sigma_hat, 4))
+
+# Extract the 3×3 matrix for beta4, beta5, beta6
+Sigma_sub <- Sigma_hat[c("ne", "south", "midwest"),
+                       c("ne", "south", "midwest")]
+
+print(round(Sigma_sub, 4))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
